@@ -6,19 +6,14 @@ function errorHandler(err, req, res, next) {
   let status = err.status || 500;
   let message = err.message || 'Internal Server Error';
 
-  // Mongoose validation error
   if (err.name === 'ValidationError') {
     status = 400;
     message = 'Validation failed';
   }
-
-  // Mongoose cast error (e.g., invalid ObjectId)
   if (err.name === 'CastError') {
     status = 400;
     message = 'Invalid identifier';
   }
-
-  // Duplicate key error
   if (err && (err.code === 11000 || err.codeName === 'DuplicateKey')) {
     status = 409;
     message = 'Duplicate key error';
